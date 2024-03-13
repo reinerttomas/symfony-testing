@@ -1,0 +1,15 @@
+# dev
+.env
+/.idea
+.DS_store
+/db_root_password.txt
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
