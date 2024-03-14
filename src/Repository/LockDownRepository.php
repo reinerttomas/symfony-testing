@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\LockDown;
+use App\Enum\LockDownStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,5 +26,16 @@ class LockDownRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function isInLockDown(): bool
+    {
+        $qb = $this->createQueryBuilder('ld');
+
+        $qb->andWhere('ld.status != :endedStatus')
+            ->setParameter('endedStatus', LockDownStatus::ENDED)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult() !== null;
     }
 }
