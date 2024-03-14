@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Dinosaur;
+use App\Factory\DinosaurFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -12,17 +12,37 @@ class DinosaurFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $dino1 = new Dinosaur('Daisy', 'Velociraptor', 2, 'Paddock A');
-        $dino2 = new Dinosaur('Maverick', 'Pterodactyl', 7, 'Aviary 1');
-        $dino3 = new Dinosaur('Big Eaty', 'Tyrannosaurus', 15, 'Paddock C');
-        $dino4 = new Dinosaur('Dennis', 'Dilophosaurus', 6, 'Paddock B');
-        $dino5 = new Dinosaur('Bumpy', 'Triceratops', 10, 'Paddock B');
-
-        $manager->persist($dino1);
-        $manager->persist($dino2);
-        $manager->persist($dino3);
-        $manager->persist($dino4);
-        $manager->persist($dino5);
-        $manager->flush();
+        DinosaurFactory::createSequence([
+            [
+                'name' => 'Daisy',
+                'genus' => 'Velociraptor',
+                'length' => 2,
+                'enclosure' => 'Paddock A',
+            ],
+            [
+                'name' => 'Maverick',
+                'genus' => 'Pterodactyl',
+                'length' => 7,
+                'enclosure' => 'Aviary 1',
+            ],
+            [
+                'name' => 'Big Eaty',
+                'genus' => 'Tyrannosaurus',
+                'length' => 15,
+                'enclosure' => 'Paddock C',
+            ],
+            [
+                'name' => 'Dennis',
+                'genus' => 'Dilophosaurus',
+                'length' => 6,
+                'enclosure' => 'Paddock B',
+            ],
+            [
+                'name' => 'Bumpy',
+                'genus' => 'Triceratops',
+                'length' => 10,
+                'enclosure' => 'Paddock B',
+            ],
+        ]);
     }
 }

@@ -70,6 +70,13 @@ class LockDown
         return $this->createdAt;
     }
 
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     public function getEndedAt(): ?DateTimeImmutable
     {
         return $this->endedAt;

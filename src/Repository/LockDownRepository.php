@@ -32,10 +32,17 @@ class LockDownRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('ld');
 
-        $qb->andWhere('ld.status != :endedStatus')
-            ->setParameter('endedStatus', LockDownStatus::ENDED)
-            ->setMaxResults(1);
+        $lockDown = $qb->orderBy('ld.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
 
-        return $qb->getQuery()->getOneOrNullResult() !== null;
+        if ($lockDown === null) {
+            return false;
+        }
+
+        assert($lockDown instanceof LockDown);
+
+        return $lockDown->getStatus() !== LockDownStatus::ENDED;
     }
 }

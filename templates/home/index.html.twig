@@ -3,6 +3,11 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+
+    {% if isInLockDown %}
+        {{ include('home/_lockDownAlert.html.twig') }}
+    {% endif %}
+
     <div class="container volcano mt-4" style="flex-grow: 1;">
         <h1 class="mt-5">Dinotopia Status</h1>
         <div class="card border-0">
