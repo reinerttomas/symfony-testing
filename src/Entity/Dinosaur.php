@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\HealthStatus;
+use App\Enum\Size;
 use App\Repository\DinosaurRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -88,6 +89,19 @@ class Dinosaur
         return $this;
     }
 
+    public function getSize(): Size
+    {
+        if ($this->length >= 10) {
+            return Size::LARGE;
+        }
+
+        if ($this->length >= 5) {
+            return Size::MEDIUM;
+        }
+
+        return Size::SMALL;
+    }
+
     public function getEnclosure(): string
     {
         return $this->enclosure;
@@ -110,5 +124,10 @@ class Dinosaur
         $this->health = $health;
 
         return $this;
+    }
+
+    public function isAcceptingVisitors(): bool
+    {
+        return $this->health !== HealthStatus::SICK;
     }
 }
