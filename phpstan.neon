@@ -11,11 +11,11 @@ parameters:
 #    checkMissingIterableValueType: false
 
     symfony:
-        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+        containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
     doctrine:
         objectManagerLoader: tests/object-manager.php
     scanDirectories:
-        - var/cache/dev/Symfony/Config
+        - var/cache/test/Symfony/Config
 
     # @see https://phpstan.org/user-guide/stub-files
     stubFiles:

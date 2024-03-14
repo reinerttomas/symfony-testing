@@ -25,5 +25,8 @@ ccs:
 fcs:
 	composer fcs
 
+test:
+	composer test
+
 ci:
 	composer ci
