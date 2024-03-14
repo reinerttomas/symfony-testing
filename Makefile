@@ -1,3 +1,19 @@
+database=symfony-testing-database-1
+
+### DOCKER ###
+
+build:
+	@docker compose build
+
+up:
+	@docker compose up -d
+
+down:
+	@docker compose down
+
+db:
+	@docker exec -it $(database) bash
+
 ### ANALYSIS ###
 
 phpstan:
