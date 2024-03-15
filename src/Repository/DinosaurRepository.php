@@ -17,13 +17,4 @@ class DinosaurRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Dinosaur::class);
     }
-
-    public function store(Dinosaur $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 }

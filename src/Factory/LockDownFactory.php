@@ -31,4 +31,9 @@ final class LockDownFactory extends ModelFactory
     {
         return $this->addState(['status' => LockDownStatus::ACTIVE]);
     }
+
+    public function ended(): self
+    {
+        return $this->addState(['status' => LockDownStatus::ENDED]);
+    }
 }

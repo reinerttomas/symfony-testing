@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\LockDown;
 use App\Enum\LockDownStatus;
+use App\Repository\Query\LockDownSelectMostRecent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,21 +20,13 @@ class LockDownRepository extends ServiceEntityRepository
         parent::__construct($registry, LockDown::class);
     }
 
-    public function store(LockDown $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
     public function isInLockDown(): bool
     {
         $qb = $this->createQueryBuilder('ld');
 
-        $lockDown = $qb->orderBy('ld.createdAt', 'DESC')
-            ->setMaxResults(1)
+        /** @var LockDown|null $lockDown */
+        $lockDown = LockDownSelectMostRecent::create($qb)
+            ->build()
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -41,8 +34,19 @@ class LockDownRepository extends ServiceEntityRepository
             return false;
         }
 
-        assert($lockDown instanceof LockDown);
-
         return $lockDown->getStatus() !== LockDownStatus::ENDED;
+    }
+
+    public function findMostRecent(): ?LockDown
+    {
+        $qb = $this->createQueryBuilder('ld');
+
+        /** @var LockDown|null $lockDown */
+        $lockDown = LockDownSelectMostRecent::create($qb)
+            ->build()
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $lockDown;
     }
 }

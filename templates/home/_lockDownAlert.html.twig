@@ -12,7 +12,7 @@
             </div>
             <div class="modal-footer">
                 <form action="{{ path('app_lockdown_end') }}" method="POST">
-                    <input type="hidden" name="_token" value="{{ csrf_token('end-lockdown') }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('end-lockdown') }}">
                     <button class="btn btn-warning" data-dismiss="modal">
                         End Lockdown
                     </button>
