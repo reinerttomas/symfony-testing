@@ -20,5 +20,5 @@
 ###< symfony/asset-mapper ###
 
 ###> phpunit/phpunit ###
-.phpunit.cache/
+.phpunit.result.cache
 ###< phpunit/phpunit ###
