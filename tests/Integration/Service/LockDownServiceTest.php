@@ -12,10 +12,12 @@ use LogicException;
 use PHPUnit\Framework\Attributes\TestDox;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Foundry\Test\Factories;
+use Zenstruck\Mailer\Test\InteractsWithMailer;
 
 class LockDownServiceTest extends KernelTestCase
 {
     use Factories;
+    use InteractsWithMailer;
 
     #[TestDox('It should end the current lock down')]
     public function testEndCurrentLockDown(): void
@@ -31,9 +33,7 @@ class LockDownServiceTest extends KernelTestCase
             ->method('clearLockDownAlerts');
         self::getContainer()->set(LockDownAlertSetter::class, $lockDownSetter);
 
-        $lockDownService = static::getContainer()->get(LockDownService::class);
-
-        $lockDownService->endCurrentLockDown();
+        $this->getLockDownService()->endCurrentLockDown();
         self::assertSame(LockDownStatus::ENDED, $lockDown->object()->getStatus());
     }
 
@@ -42,11 +42,26 @@ class LockDownServiceTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $lockDownService = static::getContainer()->get(LockDownService::class);
-
         self::expectException(LogicException::class);
         self::expectExceptionMessage('There is no lock down to end');
 
-        $lockDownService->endCurrentLockDown();
+        $this->getLockDownService()->endCurrentLockDown();
+    }
+
+    #[TestDox('It should start lock down when dinosaur escaped')]
+    public function testDinosaurEscapedPersistsLockDown(): void
+    {
+        self::bootKernel();
+
+        $this->getLockDownService()->dinosaurEscaped();
+        LockDownFactory::repository()->assert()->count(1);
+
+        self::mailer()->assertSentEmailCount(1);
+        self::mailer()->assertEmailSentTo('staff@dinotopia.com', 'PARK LOCKDOWN');
+    }
+
+    private function getLockDownService(): LockDownService
+    {
+        return self::getContainer()->get(LockDownService::class);
     }
 }

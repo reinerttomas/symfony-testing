@@ -12,3 +12,15 @@ services:
       - "8000:80"
     networks:
       - internal
+
+  mailer:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+      - internal
+    ports:
+      - "1025:1025"
+      - "8025:8025"
