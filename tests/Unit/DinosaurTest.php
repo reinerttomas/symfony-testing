@@ -7,10 +7,12 @@ namespace App\Tests\Unit;
 use App\Entity\Dinosaur;
 use App\Enum\HealthStatus;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
 class DinosaurTest extends TestCase
 {
+    #[TestDox('It can create dinosaur')]
     public function testCanGetAndSetData(): void
     {
         $dino = new Dinosaur(
@@ -26,6 +28,7 @@ class DinosaurTest extends TestCase
         self::assertSame('Paddock A', $dino->getEnclosure());
     }
 
+    #[TestDox('It should has correct size description from length')]
     #[DataProvider('provideSizeDescription')]
     public function testDinoHasCorrectSizeDescriptionFromLength(int $length, string $expectedSize): void
     {
@@ -54,6 +57,7 @@ class DinosaurTest extends TestCase
         ];
     }
 
+    #[TestDox('It should accept visitors by default')]
     public function testIsAcceptingVisitorsByDefault(): void
     {
         $dino = new Dinosaur(
@@ -66,6 +70,7 @@ class DinosaurTest extends TestCase
         self::assertTrue($dino->isAcceptingVisitors());
     }
 
+    #[TestDox('It should accept visitors based on health status')]
     #[DataProvider('provideHealthStatus')]
     public function testIsAcceptingVisitorsBasedOnHealthStatus(HealthStatus $healthStatus, bool $expectedVisitorStatus): void
     {
