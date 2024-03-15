@@ -7,8 +7,9 @@ namespace App\Service;
 use App\Doctrine\EntityManager;
 use App\Entity\LockDown;
 use App\Enum\LockDownStatus;
+use App\Message\LockDownStartedNotification;
+use App\Messenger\MessageBus;
 use App\Repository\LockDownRepository;
-use App\Service\Action\SendEmailAlert;
 
 readonly class LockDownService
 {
@@ -16,7 +17,7 @@ readonly class LockDownService
         private LockDownRepository $lockDownRepository,
         private EntityManager $em,
         private LockDownAlertSetter $lockDownAlertSetter,
-        private SendEmailAlert $sendEmailAlert,
+        private MessageBus $messageBus,
     ) {
     }
 
@@ -41,7 +42,6 @@ readonly class LockDownService
         $this->em->persist($lockDown);
         $this->em->flush();
 
-        // send an email with subject like RUUUN!!!!!
-        $this->sendEmailAlert->execute();
+        $this->messageBus->dispatch(new LockDownStartedNotification());
     }
 }

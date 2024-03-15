@@ -26,6 +26,9 @@ services:
   App\Doctrine\EntityManager:
     alias: App\Doctrine\DoctrineEntityManager
 
+  App\Messenger\MessageBus:
+    alias: App\Messenger\SymfonyMessageBus
+
   App\Service\HealthReportGetter:
     alias: App\Service\GitHub\GitHubHealthReportGetter
 
