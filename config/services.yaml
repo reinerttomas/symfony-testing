@@ -25,3 +25,6 @@ services:
 
   App\Service\HealthReport\HealthReportGetter:
     alias: App\Service\HealthReport\HealthReportGithubGetter
+
+  App\Doctrine\EntityManager:
+    alias: App\Doctrine\EntityManagerDoctrine
