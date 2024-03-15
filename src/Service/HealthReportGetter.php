@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\HealthReport;
+namespace App\Service;
 
 use App\Enum\HealthStatus;
 

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Service\HealthReport;
+namespace App\Service\GitHub;
 
 use App\Enum\HealthStatus;
+use App\Service\HealthReportGetter;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-readonly class HealthReportGithubGetter implements HealthReportGetter
+readonly class GitHubHealthReportGetter implements HealthReportGetter
 {
     public function __construct(
         private HttpClientInterface $httpClient,

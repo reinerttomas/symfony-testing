@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Repository\DinosaurRepository;
 use App\Repository\LockDownRepository;
-use App\Service\HealthReport\HealthReportGetter;
+use App\Service\HealthReportGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

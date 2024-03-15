@@ -13,6 +13,7 @@ readonly class LockDownService
     public function __construct(
         private LockDownRepository $lockDownRepository,
         private EntityManager $em,
+        private LockDownAlertSetter $lockDownAlertSetter,
     ) {
     }
 
@@ -26,5 +27,7 @@ readonly class LockDownService
 
         $lockDown->setStatus(LockDownStatus::ENDED);
         $this->em->flush();
+
+        $this->lockDownAlertSetter->clearLockDownAlerts();
     }
 }

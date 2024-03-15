@@ -23,8 +23,11 @@ services:
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
 
-  App\Service\HealthReport\HealthReportGetter:
-    alias: App\Service\HealthReport\HealthReportGithubGetter
-
   App\Doctrine\EntityManager:
-    alias: App\Doctrine\EntityManagerDoctrine
+    alias: App\Doctrine\DoctrineEntityManager
+
+  App\Service\HealthReportGetter:
+    alias: App\Service\GitHub\GitHubHealthReportGetter
+
+  App\Service\LockDownAlertSetter:
+    alias: App\Service\GitHub\GitHubLockDownAlertSetter

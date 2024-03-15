@@ -6,7 +6,7 @@ namespace App\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-readonly class EntityManagerDoctrine implements EntityManager
+readonly class DoctrineEntityManager implements EntityManager
 {
     public function __construct(private EntityManagerInterface $em)
     {
