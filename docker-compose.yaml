@@ -5,10 +5,9 @@ services:
     image: postgres:16.2-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DATABASE_DB}
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_root_password
-    secrets:
-      - db_root_password
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
@@ -19,7 +18,3 @@ networks:
 
 volumes:
   db_data:
-
-secrets:
-  db_root_password:
-    file: db_root_password.txt

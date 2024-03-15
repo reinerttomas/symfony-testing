@@ -98,7 +98,7 @@
         ],
         "ccs": "pint --config pint.json -v --test",
         "fcs": "pint --config pint.json",
-        "test": "php bin/phpunit --no-progress --testdox",
+        "test": "vendor/bin/phpunit --no-progress --testdox",
         "ci": [
             "@phpstan",
             "@ccs",
