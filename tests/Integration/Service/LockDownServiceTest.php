@@ -9,7 +9,7 @@ use App\Factory\LockDownFactory;
 use App\Service\LockDownAlertSetter;
 use App\Service\LockDownService;
 use LogicException;
-use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Mailer\Test\InteractsWithMailer;
@@ -19,8 +19,8 @@ class LockDownServiceTest extends KernelTestCase
     use Factories;
     use InteractsWithMailer;
 
-    #[TestDox('It should end the current lock down')]
-    public function testEndCurrentLockDown(): void
+    #[Test]
+    public function it_should_end_the_current_lockdown(): void
     {
         self::bootKernel();
 
@@ -37,8 +37,8 @@ class LockDownServiceTest extends KernelTestCase
         self::assertSame(LockDownStatus::ENDED, $lockDown->object()->getStatus());
     }
 
-    #[TestDox('It should fail to end the current lock down when the lock down is not active')]
-    public function testEndCurrentLockDownWithoutLockDown(): void
+    #[Test]
+    public function it_should_fail_to_end_the_current_lockdown_when_the_lockdown_is_not_active(): void
     {
         self::bootKernel();
 
@@ -48,8 +48,8 @@ class LockDownServiceTest extends KernelTestCase
         $this->getLockDownService()->endCurrentLockDown();
     }
 
-    #[TestDox('It should start lock down when dinosaur escaped')]
-    public function testDinosaurEscapedPersistsLockDown(): void
+    #[Test]
+    public function it_should_start_lockdown_when_dinosaur_escaped(): void
     {
         self::bootKernel();
 

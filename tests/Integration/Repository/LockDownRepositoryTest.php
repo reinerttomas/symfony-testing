@@ -7,7 +7,7 @@ namespace App\Tests\Integration\Repository;
 use App\Entity\LockDown;
 use App\Factory\LockDownFactory;
 use App\Repository\LockDownRepository;
-use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Foundry\Test\Factories;
 
@@ -24,14 +24,14 @@ class LockDownRepositoryTest extends KernelTestCase
         $this->lockDownRepository = $container->get(LockDownRepository::class);
     }
 
-    #[TestDox('It should not be in lock down without any rows')]
-    public function testIsInLockDownWithNoLockDownRows(): void
+    #[Test]
+    public function it_should_not_be_in_lockdown_without_any_rows(): void
     {
         self::assertFalse($this->lockDownRepository->isInLockDown());
     }
 
-    #[TestDox('It should be in lock down when the most recent lock down is active')]
-    public function testIsInLockDownReturnsTrueIfMostRecentLockDownIsActive(): void
+    #[Test]
+    public function it_should_be_in_lockdown_when_the_most_recent_lockdown_is_active(): void
     {
         LockDownFactory::new()
             ->active()
@@ -48,8 +48,8 @@ class LockDownRepositoryTest extends KernelTestCase
         self::assertTrue($this->lockDownRepository->isInLockDown());
     }
 
-    #[TestDox('It should not be in lock down when the most recent lock down is ended')]
-    public function testIsInLockDownReturnsFalseIfMostRecentLockDownIsNotActive(): void
+    #[Test]
+    public function is_should_not_be_in_lockdown_when_the_most_recent_lockdown_is_ended(): void
     {
         LockDownFactory::new()
             ->active()
@@ -66,9 +66,10 @@ class LockDownRepositoryTest extends KernelTestCase
         self::assertFalse($this->lockDownRepository->isInLockDown());
     }
 
-    #[TestDox('It can find the most recent lock down')]
-    public function testCanFindMostRecentLockDown(): void
+    #[Test]
+    public function it_can_find_the_most_recent_lock_down(): void
     {
+        // Arrange
         /** @var LockDown $lockDown */
         $lockDown = LockDownFactory::createOne([
             'createdAt' => new \DateTimeImmutable('-1 day'),
@@ -77,14 +78,16 @@ class LockDownRepositoryTest extends KernelTestCase
             'createdAt' => new \DateTimeImmutable('-2 day'),
         ]);
 
+        // Act
         $lockDownMostRecent = $this->lockDownRepository->findMostRecent();
 
+        // Assert
         self::assertNotNull($lockDownMostRecent);
         self::assertSame($lockDown->getId(), $lockDownMostRecent->getId());
     }
 
-    #[TestDox('It cannot find the most recent lock down without any rows')]
-    public function testCannotFindMostRecentLockDown(): void
+    #[Test]
+    public function it_cannot_find_the_most_recent_lockdown_without_any_rows(): void
     {
         $lockDownMostRecent = $this->lockDownRepository->findMostRecent();
 

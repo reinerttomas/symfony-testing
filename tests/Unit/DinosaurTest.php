@@ -7,13 +7,14 @@ namespace App\Tests\Unit;
 use App\Entity\Dinosaur;
 use App\Enum\HealthStatus;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
 class DinosaurTest extends TestCase
 {
-    #[TestDox('It can create dinosaur')]
-    public function testCanGetAndSetData(): void
+    #[Test]
+    public function it_can_create_dinosaur(): void
     {
         $dino = new Dinosaur(
             name: 'Big Eaty',
@@ -26,11 +27,12 @@ class DinosaurTest extends TestCase
         self::assertSame('Tyrannosaurus', $dino->getGenus());
         self::assertSame(15, $dino->getLength());
         self::assertSame('Paddock A', $dino->getEnclosure());
+        self::assertSame(HealthStatus::HEALTHY, $dino->getHealth());
     }
 
-    #[TestDox('It should has correct size description from length')]
-    #[DataProvider('provideSizeDescription')]
-    public function testDinoHasCorrectSizeDescriptionFromLength(int $length, string $expectedSize): void
+    #[Test]
+    #[DataProvider('sizeDescriptionProvider')]
+    public function it_should_has_correct_size_description_from_length(int $length, string $expectedSize): void
     {
         $dino = new Dinosaur(
             name: 'Big Eaty',
@@ -42,23 +44,27 @@ class DinosaurTest extends TestCase
         self::assertSame($expectedSize, $dino->getSize()->description());
     }
 
-    public static function provideSizeDescription(): iterable
+    public static function sizeDescriptionProvider(): iterable
     {
         yield [
-            10, 'Large',
+            'length' => 10,
+            'expectedSize' => 'Large',
         ];
 
         yield [
-            5, 'Medium',
+            'length' => 5,
+            'expectedSize' => 'Medium',
         ];
 
         yield [
-            4, 'Small',
+            'length' => 4,
+            'expectedSize' => 'Small',
         ];
     }
 
     #[TestDox('It should accept visitors by default')]
-    public function testIsAcceptingVisitorsByDefault(): void
+    #[Test]
+    public function it_should_accept_visitors_by_default(): void
     {
         $dino = new Dinosaur(
             name: 'Big Eaty',
@@ -70,9 +76,9 @@ class DinosaurTest extends TestCase
         self::assertTrue($dino->isAcceptingVisitors());
     }
 
-    #[TestDox('It should accept visitors based on health status')]
-    #[DataProvider('provideHealthStatus')]
-    public function testIsAcceptingVisitorsBasedOnHealthStatus(HealthStatus $healthStatus, bool $expectedVisitorStatus): void
+    #[Test]
+    #[DataProvider('healthStatusProvider')]
+    public function is_should_accept_visitors_when_not_sick(HealthStatus $healthStatus, bool $expectedVisitorStatus): void
     {
         $dino = new Dinosaur(
             name: 'Big Eaty',
@@ -86,8 +92,12 @@ class DinosaurTest extends TestCase
         self::assertSame($expectedVisitorStatus, $dino->isAcceptingVisitors());
     }
 
-    public static function provideHealthStatus(): iterable
+    public static function healthStatusProvider(): iterable
     {
+        yield [
+            HealthStatus::HEALTHY, true,
+        ];
+
         yield [
             HealthStatus::SICK, false,
         ];
